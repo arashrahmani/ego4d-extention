@@ -6,6 +6,35 @@ tip2: Don't add extra information that are not present in the original sentence.
 tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
 tip4: Don't ask about people or objects that are not present in the original sentence.
 tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
+tip6: Prompt: 
+
+Given the following narrations describing the actions of a person, generate a set of simple queries (one per line) that could be answered by looking at the video segments corresponding to these narrations:
+
+the person waters the plants using a water gun
+
+the person touches the plant with the left hand
+
+the person waters the plants using a water gun
+
+the person stares at the plant
+
+the person touches the soil with the left hand
+
+
+Response:
+
+1. What is the person doing with the water gun?
+
+2. Which hand is touching the plant?
+
+3. What is the person doing while watering the plants?
+
+4. What is the person looking at?
+
+5. Which hand is touching the soil?
+
+
+
 I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
 *tip5: So the person #C or person C is me.
 example 1:
@@ -26,6 +55,8 @@ For each sentence you receive, you should give me 2 things in json format like t
 query: "‘Where was the blue bucket prior to my dog
 exiting the living room?"}
 
+
+13 templates are mentioned below:
 
 Objects:
 1. Where is object X before / after event Y?
