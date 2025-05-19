@@ -6,6 +6,7 @@ import os
 import timeit
 import random
 import string
+import argparse
 
 def fast_random_string(length):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -68,6 +69,15 @@ def generate_content() -> str:
 
 
 if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser("simple_example")
+    parser.add_argument("start_index", help="Start index for the desired narrations.", type=int)
+    parser.add_argument("end_index", help="End index for the desired narrations.", type=int)
+
+    args = parser.parse_args()
+    print("start index", args.start_index)
+    print("end index", args.end_index)
+
     generate_content()
 
 
