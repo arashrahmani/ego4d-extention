@@ -21,7 +21,7 @@ os.environ["GOOGLE_CLOUD_LOCATION"] = conf["GOOGLE_CLOUD_LOCATION"]
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = conf["GOOGLE_GENAI_USE_VERTEXAI"]
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = conf["GOOGLE_APPLICATION_CREDENTIALS"]
 
-narration_path = "utils/sampled_narrations.json"
+narration_path = conf["narration_path"]
 
 with open(narration_path, 'r', encoding='utf-8') as f:
     ego4d_narrations = json.load(f)  # Load JSON data

@@ -2,6 +2,7 @@
     "GOOGLE_CLOUD_PROJECT": "evident-cosine-343512",
     "GOOGLE_CLOUD_LOCATION": "global",
     "GOOGLE_GENAI_USE_VERTEXAI": "True",
-    "GOOGLE_APPLICATION_CREDENTIALS": "/home/rider/Research/EgocentricVision/extention/evident-cosine-343512-bf74e79cb36e.json"
+    "GOOGLE_APPLICATION_CREDENTIALS": "/home/rider/Research/EgocentricVision/extention/evident-cosine-343512-bf74e79cb36e.json",
+    "narration_path" : "utils/sampled_narrations.json"
 
 }
