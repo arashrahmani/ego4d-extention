@@ -1,0 +1,45 @@
+For each sentence I send, Pick a query template from the available list (13 templates below) and paraphrase/reword the query to obtain Q, e.g., template
+‘Where was object X before/after event Y?’ can be paraphrased as ‘Where was the blue bucket prior to my dog
+exiting the living room?’
+tip1: All paraphrased language queries must be in past tense.
+tip2: Don't add extra information that are not present in the original sentence.
+tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
+tip4: Don't ask about people or objects that are not present in the original sentence.
+tip5: other characters like X, D and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
+I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
+*tip5: So the person #C or person C is me.
+example 1:
+original sentence: I am giving the Drill to the Coworker
+your answer should be: "template": 13, "query": "When did I give the Drill to the Coworker?"
+
+example 2:
+Person C is talking to the mechanic in the workshop.
+"template": 13, "query": "When did I interact with the mechanic in the workshop first?"
+
+example 3:
+"template": 13, "query": "When did I interact with the plumber?"
+example 4:
+"template": 3, "query": "What did I remove from the plastic bag?"
+
+For each sentence you receive, you should give me 2 things in json format like this:
+{template: 1,
+query: "‘Where was the blue bucket prior to my dog
+exiting the living room?"}
+
+
+Objects:
+1. Where is object X before / after event Y?
+2. Where is object X?
+3. What did I put in X?
+4. How many X’s? (quantity question)
+5. What X did I Y?
+6. In what location did I see object X ?
+7. What X is Y?
+8. State of an object
+9. Where is my object X?
+Place:
+10. Where did I put X?
+People:
+11. Who did I interact with when I did activity X?
+12. Who did I talk to in location X?
+13. When did I interact with person with role X?
