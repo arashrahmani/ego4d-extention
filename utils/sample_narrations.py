@@ -1,5 +1,4 @@
 # Stage 1 of preprocessing
-
 import json
 import random
 import os
@@ -13,12 +12,12 @@ with open(narration_path, 'r', encoding='utf-8') as f:
 N = 10 # Number of samples
 sampled_dataset = {}
 for video_uid in ego4d_narrations.keys():
-#     print(" >>>>>>>>>>>>>>>>>>>>>>> summaries <<<<<<<<<<<<<<<<<<<<<<<<<<<<")
     if 'narration_pass_2' in ego4d_narrations[video_uid]:
         sampled_dataset[video_uid] = []
-        # clip = {}
-#          # for each narration pass we have narrations and summarizations fields
+
+        # for each narration pass we have narrations and summarizations fields
         clips = ego4d_narrations[video_uid]['narration_pass_2']["narrations"]
+
         # Sample N consecutive narrations (If there was less than N samples, choose all of them)
         if len(clips) <= N:
             sampled = clips
@@ -28,7 +27,6 @@ for video_uid in ego4d_narrations.keys():
         for sample in sampled:
             sample.pop("_unmapped_timestamp_sec")
             sampled_dataset[video_uid].append(sample)
-
 
 with open("sampled_narrations.json", "w") as json_file:
     json.dump(sampled_dataset, json_file, indent=4)
