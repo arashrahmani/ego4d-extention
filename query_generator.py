@@ -40,7 +40,7 @@ def generate_content() -> str:
     # Step 1: Send the guide as the context (only once)
     guide_text = open("llm_prompt.txt", "r", encoding="utf-8").read()
     
-    chat_session = client.chats.create(model="gemini-2.0-flash-001") # another available model is gemini-2.5-flash-preview-04-17
+    chat_session = client.chats.create(model="gemini-2.5-flash-preview-04-17") # another available model is gemini-2.0-flash-001
 
     # Use a system message or initial user message to upload guide
     chat_session.send_message(f"This is a guide you should keep in mind and work based on what it wants: \n{guide_text}")
@@ -69,7 +69,7 @@ def generate_content() -> str:
 
 
 if __name__ == "__main__":
-    
+
     parser = argparse.ArgumentParser("simple_example")
     parser.add_argument("start_index", help="Start index for the desired narrations.", type=int)
     parser.add_argument("end_index", help="End index for the desired narrations.", type=int)
