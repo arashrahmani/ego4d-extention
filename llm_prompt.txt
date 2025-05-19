@@ -5,7 +5,7 @@ tip1: All paraphrased language queries must be in past tense.
 tip2: Don't add extra information that are not present in the original sentence.
 tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
 tip4: Don't ask about people or objects that are not present in the original sentence.
-tip5: other characters like X, D and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
+tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
 I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
 *tip5: So the person #C or person C is me.
 example 1:
