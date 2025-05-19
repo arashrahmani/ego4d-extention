@@ -1,11 +1,8 @@
 from google import genai
 from google.genai.types import HttpOptions, ModelContent, Part, UserContent
 import json
-import random
 import os
 import timeit
-import random
-import string
 import argparse
 
 def split_dict(d, n):
@@ -19,14 +16,10 @@ os.environ["GOOGLE_CLOUD_LOCATION"]="global"
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"]="True"
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/rider/Research/EgocentricVision/extention/evident-cosine-343512-bf74e79cb36e.json"
 
-ego4d_path = "/home/rider/Downloads/ego4d_combined/ego4d_data"
 narration_path = "utils/sampled_narrations.json"
-metadata_path = os.path.join(ego4d_path, "ego4d.json")
 
 with open(narration_path, 'r', encoding='utf-8') as f:
     ego4d_narrations = json.load(f)  # Load JSON data
-with open(metadata_path, 'r', encoding='utf-8') as f:
-    ego4d_metadata = json.load(f)  # Load JSON data
 
 def generate_content(data_block_indx) -> str:
 
@@ -38,10 +31,9 @@ def generate_content(data_block_indx) -> str:
     # Step 1: Send the guide as the context (only once)
     guide_text = open("llm_prompt.txt", "r", encoding="utf-8").read()
     
-    # chat_session = client.chats.create(model="gemini-2.0-flash-001") # another available model is gemini-2.5-flash-preview-04-17
-
     init_guide = f"This is a guide you should keep in mind and work based on what it wants: \n{guide_text}"
     chat_session = client.chats.create(
+        # Teach the annotation guide to LLM
         model="gemini-2.0-flash-001",
         history=[
             UserContent(parts=[Part(text=init_guide)]),
@@ -50,12 +42,6 @@ def generate_content(data_block_indx) -> str:
             ),
         ],
     )
-
-
-
-
-    # # Teach the annotation guide to LLM
-    # chat_session.send_message()
 
     partition_size = len(data_part.keys())
     count = 0
