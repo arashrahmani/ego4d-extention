@@ -1,5 +1,5 @@
 from google import genai
-from google.genai.types import HttpOptions
+from google.genai.types import HttpOptions, ModelContent, Part, UserContent
 import json
 import random
 import os
@@ -38,23 +38,35 @@ def generate_content(data_block_indx) -> str:
     # Step 1: Send the guide as the context (only once)
     guide_text = open("llm_prompt.txt", "r", encoding="utf-8").read()
     
-    chat_session = client.chats.create(model="gemini-2.0-flash-001") # another available model is gemini-2.5-flash-preview-04-17
+    # chat_session = client.chats.create(model="gemini-2.0-flash-001") # another available model is gemini-2.5-flash-preview-04-17
 
-    # Teach the annotation guide to LLM
-    chat_session.send_message(f"This is a guide you should keep in mind and work based on what it wants: \n{guide_text}")
+    init_guide = f"This is a guide you should keep in mind and work based on what it wants: \n{guide_text}"
+    chat_session = client.chats.create(
+        model="gemini-2.0-flash-001",
+        history=[
+            UserContent(parts=[Part(text=init_guide)]),
+            ModelContent(
+                parts=[Part(text="It seems it's for ego4d dataset. yes. Sure! I will send the json format you want for each narration you send.")],
+            ),
+        ],
+    )
 
-    response_text = ""
+
+
+
+    # # Teach the annotation guide to LLM
+    # chat_session.send_message()
+
     partition_size = len(data_part.keys())
     count = 0
     for video_id in data_part:
         for clip_indx, clip in enumerate(data_part[video_id]):
-            response_text = ""
+            response = ""
             start = timeit.default_timer()
-            for chunk in chat_session.send_message(clip["narration_text"]):
-                response_text += chunk.text
-            clip["nlq_query"] = response_text
+            response = chat_session.send_message(clip["narration_text"]).text
+            clip["nlq_query"] = response
             print("text:", clip["narration_text"])
-            print("query:", response_text)
+            print("query:", response)
             stop = timeit.default_timer()
             print('Time: ', stop - start)
             print("-----------------------------------------------")
@@ -62,7 +74,7 @@ def generate_content(data_block_indx) -> str:
         print(str(count)+"/"+str(partition_size))
     with open(f"queries_part{data_block_indx}.json", "w") as json_file:
         json.dump(data_part, json_file, indent=4)
-    return response_text
+    return response
 
 if __name__ == "__main__":
 
