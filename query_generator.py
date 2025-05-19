@@ -11,10 +11,15 @@ def split_dict(d, n):
     k, m = divmod(len(items), n)
     return [dict(items[i * k + min(i, m):(i + 1) * k + min(i + 1, m)]) for i in range(n)]
 
-os.environ["GOOGLE_CLOUD_PROJECT"] = "evident-cosine-343512"
-os.environ["GOOGLE_CLOUD_LOCATION"]="global"
-os.environ["GOOGLE_GENAI_USE_VERTEXAI"]="True"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/home/rider/Research/EgocentricVision/extention/evident-cosine-343512-bf74e79cb36e.json"
+# Read the config file
+with open("config.json", 'r', encoding='utf-8') as f:
+    conf = json.load(f)  # Load JSON data
+
+# Set the environment variables required to request to genai API
+os.environ["GOOGLE_CLOUD_PROJECT"] = conf["GOOGLE_CLOUD_PROJECT"]
+os.environ["GOOGLE_CLOUD_LOCATION"] = conf["GOOGLE_CLOUD_LOCATION"]
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = conf["GOOGLE_GENAI_USE_VERTEXAI"]
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = conf["GOOGLE_APPLICATION_CREDENTIALS"]
 
 narration_path = "utils/sampled_narrations.json"
 
