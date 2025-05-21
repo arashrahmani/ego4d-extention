@@ -9,7 +9,7 @@ narration_path = os.path.join(ego4d_path, "v1/annotations/narration.json")
 with open(narration_path, 'r', encoding='utf-8') as f:
     ego4d_narrations = json.load(f)  # Load JSON data
 
-N = 10 # Number of samples
+N = 5 # Number of samples
 sampled_dataset = {}
 for video_uid in ego4d_narrations.keys():
     if 'narration_pass_2' in ego4d_narrations[video_uid]:
