@@ -1,56 +1,30 @@
-For each sentence I send, Pick a query template from the available list (13 templates below) and paraphrase/reword the query to obtain Q, e.g., template
-‘Where was object X before/after event Y?’ can be paraphrased as ‘Where was the blue bucket prior to my dog
-exiting the living room?’
-tip1: All paraphrased language queries must be in past tense.
-tip2: Don't add extra information that are not present in the original sentence.
-tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
-tip4: Don't ask about people or objects that are not present in the original sentence.
-tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
-tip6: Prompt: 
-
-Given the following narrations describing the actions of a person, generate a set of simple queries (one per line) that could be answered by looking at the video segments corresponding to these narrations:
-
+For each group of narrations i send describing the actions of a person, generate a simple query that could be answered by looking at the video segments corresponding to these narrations:
+You should pick a query template from the available list (13 templates below) and paraphrase/reword the query to obtain Q, e.g., template
 the person waters the plants using a water gun
 
 the person touches the plant with the left hand
-
 the person waters the plants using a water gun
-
 the person stares at the plant
-
 the person touches the soil with the left hand
 
-
 Response:
-
 1. What is the person doing with the water gun?
-
 2. Which hand is touching the plant?
-
 3. What is the person doing while watering the plants?
-
 4. What is the person looking at?
-
 5. Which hand is touching the soil?
 
 
+tip1: All paraphrased language queries must be in past tense.
+tip2: Don't add extra information that are not present in the original sentences.
+tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
+tip4: Don't ask about people or objects that are not present in the original sentence.
+tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
 
 I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
-*tip5: So the person #C or person C is me.
-example 1:
-original sentence: I am giving the Drill to the Coworker
-your answer should be: "template": 13, "query": "When did I give the Drill to the Coworker?"
+*tip6: So the person #C or person C is me.
 
-example 2:
-Person C is talking to the mechanic in the workshop.
-"template": 13, "query": "When did I interact with the mechanic in the workshop first?"
-
-example 3:
-"template": 13, "query": "When did I interact with the plumber?"
-example 4:
-"template": 3, "query": "What did I remove from the plastic bag?"
-
-For each sentence you receive, you should give me 2 things in json format like this:
+For each sentence group you receive, you should give me 2 things in json format like this:
 {template: 1,
 query: "‘Where was the blue bucket prior to my dog
 exiting the living room?"}
