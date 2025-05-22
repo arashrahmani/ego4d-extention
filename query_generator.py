@@ -77,7 +77,7 @@ def generate_content(data_block_indx) -> str:
     partition_size = len(data_part.keys())
     count = 0
     for video_indx, video_id in enumerate(data_part):
-        if clip_indx % 30 == 0:  # or every 10, or per video_id
+        if video_indx % 30 == 0:  # or every 10, or per video_id
             chat_session = client.chats.create(
             model="gemini-2.0-flash-001",
             history=[
