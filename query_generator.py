@@ -4,6 +4,9 @@ import json
 import os
 import timeit
 import argparse
+import time
+import random
+from google.genai.errors import ClientError
 
 query_templates = [
     "Where is object X before / after event Y?",
@@ -42,6 +45,28 @@ narration_path = conf["narration_path"]
 with open(narration_path, 'r', encoding='utf-8') as f:
     ego4d_narrations = json.load(f)  # Load JSON data
 
+def safe_send_message(chat_session, message, max_retries=3, max_wait=8):
+    for attempt in range(max_retries):
+        try:
+            start = time.time()
+            response_obj = chat_session.send_message(message)
+            print(f"[INFO] Response received in {time.time() - start:.2f}s")
+
+            # Confirm that the response has text
+            if response_obj and response_obj.text:
+                return response_obj.text
+            else:
+                print("[WARN] Empty response received.")
+                return None
+        except ClientError as e:
+            if 'RESOURCE_EXHAUSTED' in str(e):
+                wait_time = min((2 ** attempt) + random.uniform(0, 1), max_wait)
+                print(f"[WARN] Rate limited. Retrying in {wait_time:.2f} seconds...")
+                time.sleep(wait_time)
+            else:
+                raise
+    print("[ERROR] Max retries exceeded. Skipping message.")
+    exit(0)
 def generate_content(data_block_indx) -> str:
 
     narration_parts = split_dict(ego4d_narrations, 5)
@@ -71,7 +96,7 @@ def generate_content(data_block_indx) -> str:
             start = timeit.default_timer()
             nar_string = "\n".join(narration["texts"])
             print("nar_string", nar_string)
-            response = chat_session.send_message(nar_string).text
+            response = safe_send_message(chat_session, nar_string)
 
             # Remove the Markdown code block markers
             if response.startswith("```"):
