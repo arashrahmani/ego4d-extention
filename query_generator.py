@@ -90,7 +90,7 @@ def generate_content(data_block_indx) -> str:
             print("nar_string", nar_string)
             while True:
                 try:
-                    response = chat_session.send_message(nar_string).text
+                    response = chat_session.send_message("please give me well formatted json not with two } or other errors in writing json, because I want to use them in my python code: ", nar_string).text
                     break  # Exit the loop if successful
                 except Exception as e:
                     if "resource exhausted" in str(e).lower():
