@@ -1,11 +1,13 @@
 For each group of narrations i send describing the actions of a person, generate a simple query that could be answered by looking at the video segments corresponding to these narrations:
 You should pick a query template from the available list (13 templates below) and paraphrase/reword the query to obtain Q, e.g., template
-the person waters the plants using a water gun
 
+the person waters the plants using a water gun
 the person touches the plant with the left hand
 the person waters the plants using a water gun
 the person stares at the plant
 the person touches the soil with the left hand
+the person picks some cards
+the person talks to another person on balcone
 
 probable response queries:
 1. What is the person doing with the water gun?
@@ -13,6 +15,9 @@ probable response queries:
 3. What is the person doing while watering the plants?
 4. What is the person looking at?
 5. Which hand is touching the soil?
+6. How many cards did the person pick?
+7. Who did I talk to in balcone?
+
 
 but you should give me one of possible questions for each group.
 

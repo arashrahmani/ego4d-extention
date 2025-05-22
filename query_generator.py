@@ -102,7 +102,8 @@ def generate_content(data_block_indx) -> str:
                         - Is written in the "past tense"
                         important: Do not use large immovable locations like houses, cities, or the world as "my object X". These do not qualify for object queries like Template 9
                         You can also rephrase the templates to what is reasonable to ask based on sentences.
-                        So after picking proper template, rephrase query to past tense and then write it in json.
+                        So after picking a template, rephrase query to past tense and then write it in json.
+                        be open to use all of 13 templates. I couldn't get you examples of all of them, but you can use each one of them.
                         Only return the JSON output in this format:
                         {{
                         "template": <template number>,
