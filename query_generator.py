@@ -43,6 +43,15 @@ narration_path = conf["narration_path"]
 with open(narration_path, 'r', encoding='utf-8') as f:
     ego4d_narrations = json.load(f)  # Load JSON data
 
+import re
+def extract_json_from_response(response_text):
+    # Extract JSON object using regex
+    match = re.search(r'\{.*\}', response_text, re.DOTALL)
+    if not match:
+        raise ValueError("No JSON object found.")
+    
+    json_str = match.group(0)
+    return json.loads(json_str)
 def generate_content(data_block_indx) -> str:
 
     narration_parts = split_dict(ego4d_narrations, 5)
@@ -74,7 +83,7 @@ def generate_content(data_block_indx) -> str:
             print("nar_string", nar_string)
             while True:
                 try:
-                    response = chat_session.send_message("please give me well formatted json not with two } or other errors in writing json, because I want to use them in my python code: "+ nar_string).text
+                    response = chat_session.send_message("tip: please give me well formatted json not with two } or other errors in writing json, because I want to use them in my python code: "+ nar_string).text
                     break  # Exit the loop if successful
                 except Exception as e:
                     if "resource exhausted" in str(e).lower():
@@ -88,7 +97,8 @@ def generate_content(data_block_indx) -> str:
                 response = response.strip("`").split('\n', 1)[-1].rsplit('\n', 1)[0]
 
             print(f"Response (raw): {repr(response)}")
-            response_dict = json.loads(response.replace("json", ""))
+            # response_dict = json.loads(response.replace("json", ""))
+            response_dict = extract_json_from_response(response)
             narration["nlq_query"] = response_dict["query"]
             narration["template"] = query_templates[int(response_dict["template"])-1]
             print("text:", nar_string)
