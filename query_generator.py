@@ -83,7 +83,18 @@ def generate_content(data_block_indx) -> str:
             print("nar_string", nar_string)
             while True:
                 try:
-                    response = chat_session.send_message("tip: please give me well formatted json not with two } or other errors in writing json, because I want to use them in my python code: "+ nar_string).text
+                    message = f"""
+                        Please extract a JSON in the following format, and nothing else:
+
+                        {
+                        "template": <number from 1 to 13>,
+                        "query": "<your generated natural language question>"
+                        }
+
+                        Narration:
+                        {nar_string}
+                        """
+                    response = chat_session.send_message(message).text
                     break  # Exit the loop if successful
                 except Exception as e:
                     if "resource exhausted" in str(e).lower():
