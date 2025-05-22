@@ -5,7 +5,6 @@ import os
 import timeit
 import argparse
 import time
-import re
 
 query_templates = [
     "Where is object X before / after event Y?",
@@ -22,21 +21,6 @@ query_templates = [
     "Who did I talk to in location X?",
     "When did I interact with person with role X?",
 ]
-
-
-def extract_json_from_response(response):
-    # Attempt to extract a JSON object using regex
-    match = re.search(r'\{.*?\}', response, re.DOTALL)
-    if not match:
-        raise ValueError("No JSON object found in the response.")
-
-    json_str = match.group(0)
-
-    # Try parsing the JSON string
-    try:
-        return json.loads(json_str)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Failed to parse JSON: {e}\nRaw JSON string: {json_str}")
 
 def split_dict(d, n):
     """Split a dictionary `d` into `n` chunks."""
@@ -98,14 +82,11 @@ def generate_content(data_block_indx) -> str:
                         time.sleep(1)
                     else:
                         raise  # Re-raise unexpected exceptions
+            # Remove the Markdown code block markers
             if response.startswith("```"):
-                # Remove triple backticks and optional 'json' specifier
+                # Remove the starting and ending triple backticks and optional language label
                 response = response.strip("`").split('\n', 1)[-1].rsplit('\n', 1)[0]
-            try:
-                response_dict = extract_json_from_response(response)
-            except ValueError as e:
-                print("ERROR while parsing response:", e)
-                continue
+
             print(f"Response (raw): {repr(response)}")
             response_dict = json.loads(response.replace("json", ""))
             narration["nlq_query"] = response_dict["query"]
