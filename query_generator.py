@@ -76,7 +76,15 @@ def generate_content(data_block_indx) -> str:
 
     partition_size = len(data_part.keys())
     count = 0
-    for video_id in data_part:
+    for video_indx, video_id in enumerate(data_part):
+        if clip_indx % 30 == 0:  # or every 10, or per video_id
+            chat_session = client.chats.create(
+            model="gemini-2.0-flash-001",
+            history=[
+                UserContent(parts=[Part(text=init_guide)]),
+                ModelContent(parts=[Part(text="yeah, sure! It seems it's for ego4d dataset. I will send the json format you want for each group of narrations you send.")]),
+            ],
+    )
         for clip_indx, narration in enumerate(data_part[video_id]["narrations"]):
             start = timeit.default_timer()
             nar_string = "\n".join(narration["texts"])
@@ -84,16 +92,26 @@ def generate_content(data_block_indx) -> str:
             while True:
                 try:
                     message = f"""
-                        Please extract a JSON in the following format, and nothing else:
+                        You are given a short sequence of 5 narrations that describe what a person is doing in a first-person (ego-centric) video.
 
+                        Your job is to generate a natural language question that:
+                        - Matches one of the 13 templates listed below
+                        - Can be reasonably answered by watching the video
+                        - Avoids illogical queries like asking "Where is the house?"
+                        - Focuses on visible actions, objects, and interactions
+
+                        Only return the JSON output in this format:
                         {{
-                        "template": <number from 1 to 13>,
-                        "query": "<your generated natural language question>"
+                        "template": <number>,
+                        "query": "<question>"
                         }}
 
-                        Narration:
+                        Templates:
+                        {chr(10).join([f"{i+1}. {t}" for i, t in enumerate(query_templates)])}
+
+                        Narrations:
                         {nar_string}
-                        """
+                    """                    
                     response = chat_session.send_message(message).text
                     break  # Exit the loop if successful
                 except Exception as e:
