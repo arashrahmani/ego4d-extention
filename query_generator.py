@@ -101,6 +101,7 @@ def generate_content(data_block_indx) -> str:
                         - Focuses on visible actions, objects, and interactions
                         - Should be written in past tense
                         important: Do not use large immovable locations like houses, cities, or the world as "my object X". These do not qualify for object queries like Template 9
+                        You can also rephrase the templates to what is reasonable to ask based on sentences.
                         So after picking proper template, rephrase query to past tense and then write it in json.
                         Only return the JSON output in this format:
                         {{
