@@ -7,19 +7,19 @@ import argparse
 import time
 
 query_templates = [
-    "Where is object X before / after event Y?",
-    "Where is object X?",
-    "What did I put in X?",
-    "How many X’s? (quantity question)",
-    "What X did I Y?",
-    "In what location did I see object X ?",
-    "What X is Y?",
-    "State of an object",
-    "Where is my object X?",
-    "Where did I put X?",
-    "Who did I interact with when I did activity X?",
-    "Who did I talk to in location X?",
-    "When did I interact with person with role X?",
+    "1. Where is object X before / after event Y?",
+    "2. Where is object X?",
+    "3. What did I put in X?",
+    "4. How many X’s? (quantity question)",
+    "5. What X did I Y?",
+    "6. In what location did I see object X ?",
+    "7. What X is Y?",
+    "8. State of an object",
+    "9. Where is my object X?",
+    "10. Where did I put X?",
+    "11. Who did I interact with when I did activity X?",
+    "12. Who did I talk to in location X?",
+    "13. When did I interact with person with role X?",
 ]
 
 def split_dict(d, n):
@@ -102,7 +102,7 @@ def generate_content(data_block_indx) -> str:
                         important: Do not use large immovable locations like houses, cities, or the world as "my object X". These do not qualify for object queries like Template 9
                         Only return the JSON output in this format:
                         {{
-                        "template": <number>,
+                        "template": <template number>,
                         "query": "<question>"
                         }}
 
