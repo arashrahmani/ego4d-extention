@@ -54,7 +54,7 @@ def extract_json_from_response(response_text):
     return json.loads(json_str)
 def generate_content(data_block_indx) -> str:
 
-    narration_parts = split_dict(ego4d_narrations, 5)
+    narration_parts = split_dict(ego4d_narrations, 20)
     data_part = narration_parts[data_block_indx]
 
     client = genai.Client(http_options=HttpOptions(api_version="v1"))
@@ -86,10 +86,10 @@ def generate_content(data_block_indx) -> str:
                     message = f"""
                         Please extract a JSON in the following format, and nothing else:
 
-                        {
+                        {{
                         "template": <number from 1 to 13>,
                         "query": "<your generated natural language question>"
-                        }
+                        }}
 
                         Narration:
                         {nar_string}
