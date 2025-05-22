@@ -7,28 +7,37 @@ the person waters the plants using a water gun
 the person stares at the plant
 the person touches the soil with the left hand
 
-Response:
+probable response queries:
 1. What is the person doing with the water gun?
 2. Which hand is touching the plant?
 3. What is the person doing while watering the plants?
 4. What is the person looking at?
 5. Which hand is touching the soil?
 
+but you should give me one of possible questions for each group.
 
 tip1: All paraphrased language queries must be in past tense.
 tip2: Don't add extra information that are not present in the original sentences.
 tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
 tip4: Don't ask about people or objects that are not present in the original sentence.
 tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
-
 I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
 *tip6: So the person #C or person C is me.
+
+Please use most relevant template. not just use a single or two or three repetitive templates among those 13.
+You can paraphrase and change the structure of templates (not too much, but you should make it a little bit customized for the group of narrations you receive.)
+Don't behave biased toward two or more templates. please look all of them equally to create the query.
 
 For each sentence group you receive, you should give me 2 things in json format like this:
 {template: 1,
 query: "‘Where was the blue bucket prior to my dog
 exiting the living room?"}
 
+I say you again:
+Don't say person C. I am person C. So you should write I instead of person C.
+example:
+narration: person C is putting the pen in the garden
+query: When was I putting the pen in the garden?
 
 13 templates are mentioned below:
 
