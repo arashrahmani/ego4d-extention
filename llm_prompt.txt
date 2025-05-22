@@ -10,11 +10,11 @@ the person picks some cards
 the person talks to another person on balcone
 
 probable response queries:
-1. What is the person doing with the water gun?
-2. Which hand is touching the plant?
-3. What is the person doing while watering the plants?
-4. What is the person looking at?
-5. Which hand is touching the soil?
+1. What was the person doing with the water gun?
+2. Which hand was touching the plant?
+3. What was the person doing while watering the plants?
+4. What was the person looking at?
+5. Which hand was touching the soil?
 6. How many cards did the person pick?
 7. Who did I talk to in balcone?
 
