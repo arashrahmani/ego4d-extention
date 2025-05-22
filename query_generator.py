@@ -5,6 +5,22 @@ import os
 import timeit
 import argparse
 
+query_templates = [
+    "Where is object X before / after event Y?",
+    "Where is object X?",
+    "What did I put in X?",
+    "How many X’s? (quantity question)",
+    "What X did I Y?",
+    "In what location did I see object X ?",
+    "What X is Y?",
+    "State of an object",
+    "Where is my object X?",
+    "Where did I put X?",
+    "Who did I interact with when I did activity X?",
+    "Who did I talk to in location X?",
+    "When did I interact with person with role X?",
+]
+
 def split_dict(d, n):
     """Split a dictionary `d` into `n` chunks."""
     items = list(d.items())
@@ -43,7 +59,7 @@ def generate_content(data_block_indx) -> str:
         history=[
             UserContent(parts=[Part(text=init_guide)]),
             ModelContent(
-                parts=[Part(text="It seems it's for ego4d dataset. yes. Sure! I will send the json format you want for each narration you send.")],
+                parts=[Part(text="It seems it's for ego4d dataset. yes. Sure! I will send the json format you want for each group of narrations you send.")],
             ),
         ],
     )
@@ -51,12 +67,22 @@ def generate_content(data_block_indx) -> str:
     partition_size = len(data_part.keys())
     count = 0
     for video_id in data_part:
-        for clip_indx, clip in enumerate(data_part[video_id]):
-            response = ""
+        for clip_indx, narration in enumerate(data_part[video_id]["narrations"]):
             start = timeit.default_timer()
-            response = chat_session.send_message(clip["narration_text"]).text
-            clip["nlq_query"] = response
-            print("text:", clip["narration_text"])
+            nar_string = "\n".join(narration["texts"])
+            print("nar_string", nar_string)
+            response = chat_session.send_message(nar_string).text
+
+            # Remove the Markdown code block markers
+            if response.startswith("```"):
+                # Remove the starting and ending triple backticks and optional language label
+                response = response.strip("`").split('\n', 1)[-1].rsplit('\n', 1)[0]
+
+            print(f"Response (raw): {repr(response)}")
+            response_dict = json.loads(response.replace("json", ""))
+            narration["nlq_query"] = response_dict["query"]
+            narration["template"] = query_templates[int(response_dict["template"])-1]
+            print("text:", nar_string)
             print("query:", response)
             stop = timeit.default_timer()
             print('Time: ', stop - start)
