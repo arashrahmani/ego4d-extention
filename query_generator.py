@@ -103,7 +103,8 @@ def generate_content(data_block_indx) -> str:
                         important: Do not use large immovable locations like houses, cities, or the world as "my object X". These do not qualify for object queries like Template 9
                         You can also rephrase the templates to what is reasonable to ask based on sentences.
                         So after picking a template, rephrase query to past tense and then write it in json.
-                        be open to use all of 13 templates. I couldn't get you examples of all of them, but you can use each one of them.
+                        be open to use all of 13 templates (also 9 and 10). I couldn't get you examples of all of them, but you can use each one of them.
+                        Don't ask general questions like "Where was I staring?"
                         Only return the JSON output in this format:
                         {{
                         "template": <template number>,
