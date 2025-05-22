@@ -18,10 +18,6 @@ def sample_consecutive_groups(clips, N, m, video_uid):
     total_required = m * N
     if len(clips) < N:
         # Not enough samples for one group, return all
-        sampled = clips
-        for sample in sampled:
-            sample.pop("_unmapped_timestamp_sec", None)
-        sampled_dataset[video_uid] = sampled
         return
 
     max_start = len(clips) - N
@@ -29,6 +25,7 @@ def sample_consecutive_groups(clips, N, m, video_uid):
     random.shuffle(valid_starts)
 
     sampled_dataset[video_uid] = {}
+    sampled_dataset[video_uid] = {"narrations": []}
     used_ranges = set()
     count = 0
 
@@ -36,16 +33,17 @@ def sample_consecutive_groups(clips, N, m, video_uid):
         # Ensure non-overlapping: check if range [start_idx, start_idx+N) overlaps any previous
         if any(abs(start_idx - used) < N for used in used_ranges):
             continue
-
         group = clips[start_idx:start_idx + N]
         # for sample in group:
         #     sample.pop("_unmapped_timestamp_sec", None)
-        sampled_dataset[video_uid]["narrations"] = [sample["narration_text"] for sample in group]
-        sampled_dataset[video_uid]["video_start_sec"] = group[0]["timestamp_sec"]
-        sampled_dataset[video_uid]["video_end_sec"] = group[-1]["timestamp_sec"]
-        sampled_dataset[video_uid]["video_start_frame"] = group[0]["timestamp_frame"]
-        sampled_dataset[video_uid]["video_end_frame"] = group[-1]["timestamp_frame"]
+        narration_dict = {}
+        narration_dict["texts"] = [sample["narration_text"] for sample in group]
+        narration_dict["video_start_sec"] = group[0]["timestamp_sec"]
+        narration_dict["video_end_sec"] = group[-1]["timestamp_sec"]
+        narration_dict["video_start_frame"] = group[0]["timestamp_frame"]
+        narration_dict["video_end_frame"] = group[-1]["timestamp_frame"]
 
+        sampled_dataset[video_uid]["narrations"].append(narration_dict)
 
         used_ranges.add(start_idx)
         count += 1
