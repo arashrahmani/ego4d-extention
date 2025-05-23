@@ -104,7 +104,7 @@ def generate_content(data_block_indx) -> str:
                     - Avoids general or vague questions (like "What happened?" or "What was I doing?")
                     - Avoids making assumptions about parts of the video **outside** the given 5 narrations
                     - All queries must be in past tense (e.g., "was", "did", "had", "saw")
-
+                    You don't have to use exactly the template. You have flexibility to rephrase and reverb, but in meaningful ways and the answer shoule be foundable in the video.
                     Only return a JSON object in this format:
 
                     {{
