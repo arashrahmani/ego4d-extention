@@ -1,64 +1,41 @@
-For each group of narrations i send describing the actions of a person, generate a simple query that could be answered by looking at the video segments corresponding to these narrations:
-You should pick a query template from the available list (13 templates below) and paraphrase/reword the query to obtain Q, e.g., template
+You will be given a group of 5 narrations describing actions from a first-person (egocentric) video. These narrations describe what I (the camera wearer) and other people are doing.
 
-the person waters the plants using a water gun
-the person touches the plant with the left hand
-the person waters the plants using a water gun
-the person stares at the plant
-the person touches the soil with the left hand
-the person picks some cards
-the person talks to another person on balcone
+Your job is to generate **one natural language question** that:
+- Can be answered by watching only the video segment corresponding to these 5 narrations
+- Matches one of the 13 query templates listed below
+- Is written in **past tense**
+- Is grounded in what is actually visible or mentioned
+- Uses "I" when referring to the camera wearer (person C)
+- Refers to other people (like E, O, D) using **third-person language** like “the woman”, “the man”, “the child”, or just their role or name if available
+- **Avoids making up** new people, actions, or objects not mentioned in the narrations
+- Avoids using **immovable objects** like "the house" in templates 9 or 10
+- Paraphrases the template — **do not copy the template exactly**
+- Does not ask general or vague questions like “Where was I looking?”
 
-probable response queries:
-1. What was the person doing with the water gun?
-2. Which hand was touching the plant?
-3. What was the person doing while watering the plants?
-4. What was the person looking at?
-5. Which hand was touching the soil?
-6. How many cards did the person pick?
-7. Who did I talk to in balcone?
+Use **all templates** evenly where appropriate — do not default to a few common ones.
 
+✅ You may write queries about actions done by other people (not just me), as long as their actions appear in the narration. But only refer to me (camera wearer) as “I” — never say “person C.”
 
-but you should give me one of possible questions for each group.
+---
 
-tip1: All paraphrased language queries must be in past tense.
-tip2: Don't add extra information that are not present in the original sentences.
-tip3: Don't count people as object in template (just use relevant templates). Objects are real objects like chair, apple, flask etc.
-tip4: Don't ask about people or objects that are not present in the original sentence.
-tip5: other characters like O, X, D, and others are 3'rd persons (not me). and you can create queries like before, but for 3'rd person subject.
-I am always #C in the sentences (camera wearer is #C which should be 1's person subject)
-*tip6: So the person #C or person C is me.
+📤 JSON format:
+{
+  "template": <template number>,
+  "query": "<your paraphrased question>"
+}
 
-Please use most relevant template. not just use a single or two or three repetitive templates among those 13.
-You can paraphrase and change the structure of templates (not too much, but you should make it a little bit customized for the group of narrations you receive.)
-Don't behave biased toward two or more templates. please look all of them equally to create the query.
-
-For each sentence group you receive, you should give me 2 things in json format like this:
-{template: 1,
-query: "‘Where was the blue bucket prior to my dog
-exiting the living room?"}
-
-I say you again:
-Don't say person C. I am person C. So you should write I instead of person C.
-example:
-narration: person C is putting the pen in the garden
-query: When was I putting the pen in the garden?
-
-13 templates are mentioned below:
-
-Objects:
+📄 Templates:
 1. Where is object X before / after event Y?
 2. Where is object X?
 3. What did I put in X?
 4. How many X’s? (quantity question)
 5. What X did I Y?
-6. In what location did I see object X ?
+6. In what location did I see object X?
 7. What X is Y?
 8. State of an object
 9. Where is my object X?
-Place:
 10. Where did I put X?
-People:
 11. Who did I interact with when I did activity X?
 12. Who did I talk to in location X?
 13. When did I interact with person with role X?
+

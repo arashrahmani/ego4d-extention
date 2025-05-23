@@ -92,31 +92,31 @@ def generate_content(data_block_indx) -> str:
             while True:
                 try:
                     message = f"""
-                        You are given a short sequence of 5 narrations that describe what a person is doing in a first-person (ego-centric) video.
+                    You are given a short sequence of 5 narrations that describe what a person is doing in a first-person (ego-centric) video.
 
-                        Your job is to generate a natural language question that:
-                        - Matches one of the 13 templates listed below
-                        - Can be reasonably answered by watching the video
-                        - Avoids illogical queries like asking "Where is the house?"
-                        - Focuses on visible actions, objects, and interactions
-                        - Is written in the "past tense"
-                        important: Do not use large immovable locations like houses, cities, or the world as "my object X". These do not qualify for object queries like Template 9
-                        You can also rephrase the templates to what is reasonable to ask based on sentences.
-                        So after picking a template, rephrase query to past tense and then write it in json.
-                        be open to use all of 13 templates (also 9 and 10). I couldn't get you examples of all of them, but you can use each one of them.
-                        Don't ask general questions like "Where was I staring?"
-                        Only return the JSON output in this format:
-                        {{
-                        "template": <template number>,
-                        "query": "<question>"
-                        }}
+                    Your job is to generate a single **natural language question** that:
+                    - Matches the intent of one of the 13 templates listed below
+                    - Can be **clearly answered by watching the video segment described by these narrations only**
+                    - Refers only to **visible and interacted objects** — avoid large immovable entities like houses, buildings, mountains, cities, etc.
+                    - Is written in **past tense**
+                    - Is **specific**, **grounded**, and **concrete** (e.g., “Where did I place the cup?” is good, “Where was I staring?” is bad)
+                    - **Rephrases the template naturally** — do NOT copy the exact words or verbs in the template; use synonyms and rewrite it to suit the narration
+                    - Avoids general or vague questions (like "What happened?" or "What was I doing?")
+                    - Avoids making assumptions about parts of the video **outside** the given 5 narrations
 
-                        Templates:
-                        {chr(10).join([f"{i+1}. {t}" for i, t in enumerate(query_templates)])}
+                    Only return a JSON object in this format:
 
-                        Narrations:
-                        {nar_string}
-                    """                    
+                    {{
+                    "template": <template number>,
+                    "query": "<natural language question>"
+                    }}
+
+                    Templates:
+                    {chr(10).join([f"{i+1}. {t}" for i, t in enumerate(query_templates)])}
+
+                    Narrations:
+                    {nar_string}
+                    """
                     response = chat_session.send_message(message).text
                     break  # Exit the loop if successful
                 except Exception as e:
